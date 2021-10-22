@@ -15,7 +15,11 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) throws IOException, ParseException, ClassNotFoundException {
 
+        Utilisateur alcide = new Utilisateur("alcide", "alcide");
+
         FileManager fm = new FileManager();
+
+        //fm.addUserToFile(alcide);
 
         Ingredient steak = new IngredientAvecCuisson(1, "Steak", 10, "Grill");
         Ingredient poulet = new IngredientAvecCuisson(2, "Poulet", 8, "Grill");
@@ -99,7 +103,7 @@ public class Main {
         //Récuparation des tous les accompagements
         ArrayList<Accompagnement> listeAccompagnements = fm.getAccompagnementsFromFile();
 
-        Vue vue = new Vue(listeBoissons, listePlats, listeAccompagnements);
+        Vue vue = new Vue(listeBoissons, listePlats, listeAccompagnements, fm);
         int choix = vue.choixAccueil();
         System.out.println(choix);
 

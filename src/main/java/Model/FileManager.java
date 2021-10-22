@@ -1,21 +1,21 @@
 package Model;
 
 import java.io.*;
-import java.util.ArrayList;
+import java.nio.charset.Charset;
+import java.util.*;
+
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import jdk.jshell.execution.Util;
 
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
 import java.util.concurrent.atomic.AtomicReferenceArray;
 
 //En faire un singleton des que possible
@@ -130,5 +130,61 @@ public class FileManager implements Serializable{
             ois.close();
         }
         return accompagnementOut;
+    }
+
+    //Creation de User
+    public void addUserToFile(Utilisateur user) throws IOException, ClassNotFoundException {
+
+        //Write Student array to file.
+        FileOutputStream fos = new FileOutputStream("Data/Users/" + user.getId() + ".ser");
+        ObjectOutputStream oos = new ObjectOutputStream(fos);
+        oos.writeObject(user);
+        oos.close();
+    }
+
+    public Utilisateur getUserByIdFromFile(String id) throws IOException, ClassNotFoundException {
+        File folder = new File("Data/Users");
+        File[] listOfFiles = folder.listFiles();
+        ArrayList<String> nomObjets = new ArrayList<>();
+
+        try{
+            FileInputStream fis = new FileInputStream("Data/Users/" + id + ".ser");
+            ObjectInputStream ois = new ObjectInputStream(fis);
+            Utilisateur user = (Utilisateur) ois.readObject();
+            ois.close();
+            return user;
+        } catch (IOException e) {
+            return null;
+        } catch (ClassNotFoundException e) {
+            return null;
+        }
+    }
+
+    //Génération d'un id utilisateur unique
+    public String getNewId() throws IOException, ClassNotFoundException {
+        int leftLimit = 97; // letter 'a'
+        int rightLimit = 122; // letter 'z'
+        int targetStringLength = 5;
+        Random random = new Random();
+        StringBuilder buffer = new StringBuilder(targetStringLength);
+        for (int i = 0; i < targetStringLength; i++) {
+            int randomLimitedInt = leftLimit + (int)
+                    (random.nextFloat() * (rightLimit - leftLimit + 1));
+            buffer.append((char) randomLimitedInt);
+        }
+        String generatedString = buffer.toString();
+        Utilisateur idGenere = this.getUserByIdFromFile(generatedString);
+
+        while(idGenere != null){
+            buffer = new StringBuilder(targetStringLength);
+            for (int i = 0; i < targetStringLength; i++) {
+                int randomLimitedInt = leftLimit + (int)
+                        (random.nextFloat() * (rightLimit - leftLimit + 1));
+                buffer.append((char) randomLimitedInt);
+            }
+            generatedString = buffer.toString();
+            idGenere = this.getUserByIdFromFile(generatedString);
+        }
+        return generatedString;
     }
 }
