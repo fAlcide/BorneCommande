@@ -5,6 +5,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -12,7 +13,9 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main {
-    public static void main(String[] args) throws IOException, ParseException {
+    public static void main(String[] args) throws IOException, ParseException, ClassNotFoundException {
+
+        FileManager fm = new FileManager();
 
         Ingredient steak = new IngredientAvecCuisson(1, "Steak", 10, "Grill");
         Ingredient poulet = new IngredientAvecCuisson(2, "Poulet", 8, "Grill");
@@ -36,16 +39,19 @@ public class Main {
         burgerListe.add(tomate);
         burgerListe.add(oignon);
 
+
+
         ArrayList<Ingredient> cocaListe = new ArrayList<>();
-        burgerListe.add(coca);
+        cocaListe.add(coca);
 
         ArrayList<Ingredient> friteListe = new ArrayList<>();
-        burgerListe.add(pdt);
+        friteListe.add(pdt);
 
         ArrayList<Ingredient> iceTeaListe = new ArrayList<>();
-        burgerListe.add(iceTea);
+        iceTeaListe.add(iceTea);
 
         Plat burger = new Plat(1, "Burger", burgerListe, 6, true, 1);
+
         Boisson cocaProduit = new Boisson(1, "Coca", cocaListe, 1, true, 1);
         Accompagnement frite = new Accompagnement(1, "Frite", friteListe, 3, true, 1);
 
@@ -55,8 +61,24 @@ public class Main {
         ArrayList<Boisson> listeBoissons = new ArrayList<>();
         listeBoissons.add(cocaProduit);
         listeBoissons.add(iceTeaBoisson);
-        System.out.println(cocaProduit.getNom());
-        System.out.println(listeBoissons.get(0).getNom());
+
+        for (Boisson boisson: listeBoissons
+             ) {
+            fm.addBoissonInFile(boisson);
+        }
+
+        fm.getBoissonFromFile();
+
+
+
+        /*for (Boisson boisson: listeBoissons
+        ) {
+            coca.addBoissonInFile(boisson);
+        }
+
+        coca.getBoissonFromFile();
+
+         */
 
         ArrayList<Plat> listePlats = new ArrayList<>();
         listePlats.add(burger);

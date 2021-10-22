@@ -1,5 +1,7 @@
 package Model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.ArrayList;
 
 public abstract class Produit extends Modele{
@@ -9,6 +11,9 @@ public abstract class Produit extends Modele{
     private ArrayList<Ingredient> ingredients;
     private float prix;
     private boolean dispoHorsMenu;
+
+    public Produit() {
+    }
 
     public Produit(int id, String nom, ArrayList<Ingredient> ingredients, float prix, boolean dispoHorsMenu) {
         this.id = id;

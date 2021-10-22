@@ -1,12 +1,15 @@
 package Model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Boisson extends Produit{
+public class Boisson extends Produit implements Serializable {
 
     private int contenance;
 
-    public Boisson(int id, String nom, ArrayList<Ingredient> ingredients, float prix, boolean dispoHorsMenu, int contenance) {
+    public Boisson(@JsonProperty("id") int id, @JsonProperty("nom") String nom, @JsonProperty("ingredients") ArrayList<Ingredient> ingredients, @JsonProperty("prix") float prix, @JsonProperty("dispoHorsMenu") boolean dispoHorsMenu, @JsonProperty("contenance") int contenance) {
         super(id, nom, ingredients, prix, dispoHorsMenu);
         this.contenance = contenance;
     }
