@@ -10,13 +10,16 @@ public class Vue {
     private ArrayList<Boisson> listeBoissons;
     private ArrayList<Plat> listePlats;
     private ArrayList<Accompagnement> listeAccompagnements;
+    ArrayList<Produit> listeProduits = new ArrayList<>();
     private Commande commande = null;
-    private Menu menu = null;
 
     public Vue(ArrayList<Boisson> listeBoissons, ArrayList<Plat> listePlats, ArrayList<Accompagnement> listeAccompagnements) {
         this.listeBoissons = listeBoissons;
         this.listePlats = listePlats;
         this.listeAccompagnements = listeAccompagnements;
+        this.listeProduits.addAll(this.listePlats);
+        this.listeProduits.addAll(this.listeAccompagnements);
+        this.listeProduits.addAll(this.listeBoissons);
     }
 
     public int choixAccueil(){
@@ -57,7 +60,8 @@ public class Vue {
         System.out.println("1 - Menus");
         System.out.println("2 - Produits");
         System.out.println("3 - Contenance de la commande");
-        System.out.println("0 - Quitter");
+        System.out.println("4 - Valider la commande");
+        System.out.println("0 - Annuler la commande");
 
         int choix = sc.nextInt();
 
@@ -68,15 +72,23 @@ public class Vue {
 
         switch(choix){
 
+            case 0:
+                annulerCommande();
+                break;
+
             case 1:
                 choixMenu();
                 break;
 
             case 2:
-                System.out.println("Hello");
+                choixProduit();
                 break;
 
             case 3:
+                contenanceCommande();
+                break;
+
+            case 4:
                 System.out.println("Buenos dias");
                 break;
             default:
@@ -87,7 +99,7 @@ public class Vue {
 
     public Menu choixMenu(){
         System.out.flush();
-        System.out.println("Selectionner un menu");
+        System.out.println("Selectionnez le plat de votre menu");
 
         int cpt = 0;
         for (Plat plats:listePlats
@@ -110,7 +122,7 @@ public class Vue {
     }
 
     public void choixAccompagnement(Plat plat){
-        System.out.println("Selectionner l'accompagnement de votre menu");
+        System.out.println("Selectionnez l'accompagnement de votre menu");
 
         int cpt = 0;
         for (Accompagnement accompagnement:listeAccompagnements
@@ -129,8 +141,8 @@ public class Vue {
         }
     }
 
-    public Boisson choixBoisson(Plat plat, Accompagnement accompagnement){
-        System.out.println("Selectionner une boisson pour votre menu");
+    public void choixBoisson(Plat plat, Accompagnement accompagnement){
+        System.out.println("Selectionnez une boisson pour votre menu");
 
         int cpt = 0;
         for (Boisson boisson:listeBoissons
@@ -146,13 +158,76 @@ public class Vue {
         }
         if(choix != 0){
             Boisson boisson =  listeBoissons.get(choix - 1);
-            this.setCommande(new Commande());
+            if(this.getCommande() == null){
+                this.setCommande(new Commande());
+            }
             this.commande.ajouterMenu(new Menu( boisson, plat, accompagnement));
-            System.out.println("Votre menu a bien été ajouter à votre commande");
-            System.out.println(this.commande.toString());
-            choixAccueil();
+            System.out.println("Votre menu a bien été ajouté à votre commande");
+            commande();
         }
-        return null;
+    }
+
+    public void choixProduit(){
+        System.out.println("Selectionnez un produit à ajouter à votre commande");
+
+        int cpt = 0;
+        for (Produit produit:listeProduits
+        ) {
+            cpt = cpt + 1;
+            System.out.println(cpt + " - " + produit.getNom());
+        }
+
+        System.out.println("0 - Quitter");
+        int choix = sc.nextInt();
+        while(choix < 0 || choix > listeProduits.size()){
+            choix = sc.nextInt();
+        }
+        if(choix != 0){
+            Produit produit =  listeProduits.get(choix - 1);
+            if(this.getCommande() == null){
+                this.setCommande(new Commande());
+            }
+            this.commande.ajouterProduit(produit);
+            System.out.println(produit.getNom() + " a bien été ajouté à votre commande");
+            commande();
+        }
+    }
+
+    public void contenanceCommande(){
+        System.out.println("Contenance de la commande");
+        System.out.println("Menus : ");
+
+        int cpt = 0;
+        int cptProduit = 0;
+        for (Menu menu:this.commande.getMenus()
+        ) {
+            cpt = cpt + 1;
+            System.out.println("Menu" + " - " + cpt + ": " + menu.getPlat().getNom() + ", " + menu.getAccompagnement().getNom() + ", " + menu.getBoisson().getNom());
+        }
+
+        System.out.println("");
+        System.out.println("Produits");
+
+        for (Produit produit:this.commande.getProduits()
+        ) {
+            cptProduit = cptProduit + 1;
+            System.out.println("Produits" + " - " + cptProduit + ": " + produit.getNom());
+        }
+
+        System.out.println("0 - Retour");
+        int choix = sc.nextInt();
+        while(choix < 0 || choix > listeProduits.size()){
+            choix = sc.nextInt();
+        }
+
+        if(choix == 0){
+            commande();
+        }
+    }
+
+    public void annulerCommande(){
+        this.setCommande(null);
+        choixMenu();
     }
 
     public Commande getCommande() {
@@ -161,13 +236,5 @@ public class Vue {
 
     public void setCommande(Commande commande) {
         this.commande = commande;
-    }
-
-    public Menu getMenu() {
-        return menu;
-    }
-
-    public void setMenu(Menu menu) {
-        this.menu = menu;
     }
 }

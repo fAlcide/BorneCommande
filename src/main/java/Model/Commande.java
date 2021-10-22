@@ -15,6 +15,7 @@ public class Commande extends Modele{
     public Commande() {
         this.id = genererId();
         this.menus = new ArrayList<>();
+        this.produits = new ArrayList<>();
         this.dateCreation = LocalDateTime.now();
     }
 
@@ -24,6 +25,10 @@ public class Commande extends Modele{
 
     public void ajouterMenu(Menu menu){
         this.menus.add(menu);
+    }
+
+    public void ajouterProduit(Produit produit){
+        this.produits.add(produit);
     }
 
     public int getId() {
