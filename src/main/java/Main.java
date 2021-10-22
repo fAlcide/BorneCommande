@@ -39,8 +39,6 @@ public class Main {
         burgerListe.add(tomate);
         burgerListe.add(oignon);
 
-
-
         ArrayList<Ingredient> cocaListe = new ArrayList<>();
         cocaListe.add(coca);
 
@@ -58,7 +56,7 @@ public class Main {
         Boisson iceTeaBoisson = new Boisson(1, "Ice Tea", iceTeaListe, 1, true, 1);
         ArrayList<Menu> listeMenus = new ArrayList<>();
 
-        ArrayList<Boisson> listeBoissons = new ArrayList<>();
+        /*ArrayList<Boisson> listeBoissons = new ArrayList<>();
         listeBoissons.add(cocaProduit);
         listeBoissons.add(iceTeaBoisson);
 
@@ -67,24 +65,39 @@ public class Main {
             fm.addBoissonInFile(boisson);
         }
 
-        fm.getBoissonFromFile();
-
-
-
-        /*for (Boisson boisson: listeBoissons
-        ) {
-            coca.addBoissonInFile(boisson);
-        }
-
-        coca.getBoissonFromFile();
-
          */
 
+        ArrayList<Boisson> listeBoissons = fm.getBoissonFromFile();
+
+
+        //Ajout des plats dans les fichiers
+        /*
         ArrayList<Plat> listePlats = new ArrayList<>();
         listePlats.add(burger);
 
-        ArrayList<Accompagnement> listeAccompagnements = new ArrayList<>();
-        listeAccompagnements.add(frite);
+        for (Plat plat: listePlats
+             ) {
+            fm.addPlatInFile(plat);
+        }
+         */
+
+        //récupération des plats
+        ArrayList<Plat> listePlats = fm.getPlatFromFile();
+
+        //ArrayList<Accompagnement> listeAccompagnements = new ArrayList<>();
+        //listeAccompagnements.add(frite);
+
+        //Ajout des accompagnements dans les fichiers
+
+        /*for (Accompagnement accompagnement: listeAccompagnements
+             ) {
+            fm.addAccompagnementInFile(accompagnement);
+        }
+
+         */
+
+        //Récuparation des tous les accompagements
+        ArrayList<Accompagnement> listeAccompagnements = fm.getAccompagnementsFromFile();
 
         Vue vue = new Vue(listeBoissons, listePlats, listeAccompagnements);
         int choix = vue.choixAccueil();
