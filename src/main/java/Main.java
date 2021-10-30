@@ -104,8 +104,9 @@ public class Main {
         ArrayList<Accompagnement> listeAccompagnements = fm.getAccompagnementsFromFile();
 
         Vue vue = new Vue(listeBoissons, listePlats, listeAccompagnements, fm);
-        int choix = vue.choixAccueil();
-        System.out.println(choix);
+        while(true){
+            int choix = vue.choixAccueil();
+        }
 
         /*ObjectMapper mapper = new ObjectMapper();
         try {

@@ -187,4 +187,71 @@ public class FileManager implements Serializable{
         }
         return generatedString;
     }
+
+    //Sauvegarde d'une commande en fichiers
+    public void addCommandeToFile(Commande commande) throws IOException, ClassNotFoundException {
+
+        FileOutputStream fos = new FileOutputStream("Data/Commandes/" + commande.getId() + ".ser");
+        ObjectOutputStream oos = new ObjectOutputStream(fos);
+        oos.writeObject(commande);
+        oos.close();
+    }
+
+    //Récupération de commande par Id
+    public Commande getCommandeById(int id) throws IOException, ClassNotFoundException {
+        File folder = new File("Data/Commandes");
+        File[] listOfFiles = folder.listFiles();
+        ArrayList<String> nomObjets = new ArrayList<>();
+
+        try{
+            FileInputStream fis = new FileInputStream("Data/Commandes/" + id + ".ser");
+            ObjectInputStream ois = new ObjectInputStream(fis);
+            Commande commande = (Commande) ois.readObject();
+            ois.close();
+            return commande;
+        } catch (IOException e) {
+            return null;
+        } catch (ClassNotFoundException e) {
+            return null;
+        }
+    }
+
+    //Génération id commande
+    public int generationIdCommande() throws IOException, ClassNotFoundException {
+        File folder = new File("Data/Commandes");
+        File[] listOfFiles = folder.listFiles();
+
+        if(listOfFiles.length > 0){
+            String id = listOfFiles[listOfFiles.length - 1].getName();
+            id = id.replace(".ser", "");
+            int idFinal = Integer.parseInt(id);
+            return idFinal + 1;
+        }else{
+            return 1;
+        }
+    }
+
+    //Récupération de toutes les commandes
+    public ArrayList<Commande> getAllCommandesByIdUser(Utilisateur user) throws IOException {
+        File folder = new File("Data/Commandes");
+        File[] listOfFiles = folder.listFiles();
+        ArrayList<Commande> commandes = new ArrayList<>();
+
+        for (File file:listOfFiles
+             ) {
+            try{
+                FileInputStream fis = new FileInputStream(file);
+                ObjectInputStream ois = new ObjectInputStream(fis);
+                Commande commande = (Commande) ois.readObject();
+                if(commande.getUtilisateur().getId().compareTo(user.getId()) == 0){
+                    commandes.add(commande);
+                }
+                ois.close();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return commandes;
+    }
 }

@@ -29,17 +29,16 @@ public class Vue {
     public boolean identification() throws IOException, ClassNotFoundException {
         System.out.println("1 - S'identifier");
         System.out.println("2 - Créer un compte");
-        System.out.println("0 - Quitter");
 
         int choix = sc.nextInt();
 
         if(choix == 1){
-            String pos = sc.nextLine(); // Permet de casser le \n du scanner int juste avant@
+            String pos = sc.nextLine(); // Permet de casser le \n du scanner int juste avant
             System.out.println("Entrez votre id utilisateur");
             String id = sc.nextLine();
             Utilisateur userFromId = fileManager.getUserByIdFromFile(id);
             if(userFromId != null){
-                this.setUser(user);
+                this.setUser(userFromId);
                 return true;
             }else{
                 System.out.println("Utilisateur inconnu");
@@ -80,18 +79,17 @@ public class Vue {
         }
 
         switch(choix){
-
             case 1:
                 commande();
                 break;
-
             case 2:
-                System.out.println("Hello");
+                afficherCommandesUtilisateur();
                 break;
-
             case 3:
                 System.out.println("Buenos dias");
                 break;
+            case 0:
+                return 0;
             default:
                 System.out.println("Choix incorrect");
                 break;
@@ -100,7 +98,7 @@ public class Vue {
         return choix;
     }
 
-    public void commande(){
+    public void commande() throws IOException, ClassNotFoundException {
         System.out.println("1 - Menus");
         System.out.println("2 - Produits");
         System.out.println("3 - Contenance de la commande");
@@ -109,17 +107,15 @@ public class Vue {
 
         int choix = sc.nextInt();
 
-        while(choix < 0 || choix > 3){
+        while(choix < 0 || choix > 4){
             System.out.println("Entrée invalide");
             choix = sc.nextInt();
         }
 
         switch(choix){
-
             case 0:
-                annulerCommande();
+                choixAccueil();
                 break;
-
             case 1:
                 choixMenu();
                 break;
@@ -131,9 +127,8 @@ public class Vue {
             case 3:
                 contenanceCommande();
                 break;
-
             case 4:
-                System.out.println("Buenos dias");
+                validationCommande();
                 break;
             default:
                 System.out.println("Choix incorrect");
@@ -142,7 +137,7 @@ public class Vue {
 
     }
 
-    public Menu choixMenu() {
+    public Menu choixMenu() throws IOException, ClassNotFoundException {
             System.out.flush();
             System.out.println("Selectionnez le plat de votre menu");
 
@@ -159,14 +154,16 @@ public class Vue {
                 choix = sc.nextInt();
             }
 
-            if (choix != 0) {
+            if(choix == 0){
+                commande();
+            }else{
                 choixAccompagnement(listePlats.get(cpt - 1));
             }
 
         return null;
     }
 
-    public void choixAccompagnement(Plat plat){
+    public void choixAccompagnement(Plat plat) throws IOException, ClassNotFoundException {
         System.out.println("Selectionnez l'accompagnement de votre menu");
 
         int cpt = 0;
@@ -181,12 +178,14 @@ public class Vue {
         while(choix < 0 || choix > listeAccompagnements.size()){
             choix = sc.nextInt();
         }
-        if(choix != 0){
+        if(choix == 0){
+            commande();
+        }else{
             choixBoisson(plat, listeAccompagnements.get(choix - 1));
         }
     }
 
-    public void choixBoisson(Plat plat, Accompagnement accompagnement){
+    public void choixBoisson(Plat plat, Accompagnement accompagnement) throws IOException, ClassNotFoundException {
         System.out.println("Selectionnez une boisson pour votre menu");
 
         int cpt = 0;
@@ -201,7 +200,9 @@ public class Vue {
         while(choix < 0 || choix > listeBoissons.size()){
             choix = sc.nextInt();
         }
-        if(choix != 0){
+        if(choix == 0){
+            commande();
+        }else{
             Boisson boisson =  listeBoissons.get(choix - 1);
             if(this.getCommande() == null){
                 this.setCommande(new Commande());
@@ -212,7 +213,7 @@ public class Vue {
         }
     }
 
-    public void choixProduit(){
+    public void choixProduit() throws IOException, ClassNotFoundException {
         System.out.println("Selectionnez un produit à ajouter à votre commande");
 
         int cpt = 0;
@@ -238,7 +239,7 @@ public class Vue {
         }
     }
 
-    public void contenanceCommande(){
+    public void contenanceCommande() throws IOException, ClassNotFoundException {
         System.out.println("Contenance de la commande");
         System.out.println("Menus : ");
 
@@ -270,9 +271,26 @@ public class Vue {
         }
     }
 
-    public void annulerCommande(){
+    public void validationCommande() throws IOException, ClassNotFoundException {
+        this.commande.setId(fileManager.generationIdCommande());
+        this.commande.setUtilisateur(this.user);
+        this.commande.setEtat("En cours de préparation");
+        fileManager.addCommandeToFile(this.commande);
+        System.out.println("Votre numéro de commande est le " + this.commande.getId());
+    }
+
+    public void annulerCommande() throws IOException, ClassNotFoundException {
         this.setCommande(null);
+        System.out.println("Commande annulée");
         choixMenu();
+    }
+
+    public void afficherCommandesUtilisateur() throws IOException, ClassNotFoundException {
+        ArrayList<Commande> commandes = fileManager.getAllCommandesByIdUser(user);
+        for (Commande c: commandes
+             ) {
+            c.afficherContenance();
+        }
     }
 
     public Commande getCommande() {

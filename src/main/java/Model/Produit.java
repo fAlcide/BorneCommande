@@ -62,4 +62,6 @@ public abstract class Produit extends Modele{
     public void setDispoHorsMenu(boolean dispoHorsMenu) {
         this.dispoHorsMenu = dispoHorsMenu;
     }
+
+
 }

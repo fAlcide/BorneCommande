@@ -21,4 +21,6 @@ public class Boisson extends Produit implements Serializable {
     public void setContenance(int contenance) {
         this.contenance = contenance;
     }
+
+
 }

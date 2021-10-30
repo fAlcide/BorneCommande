@@ -46,4 +46,13 @@ public class Menu extends Modele{
     public void setAccompagnement(Accompagnement accompagnement) {
         this.accompagnement = accompagnement;
     }
+
+    @Override
+    public String toString() {
+        return "Menu{" +
+                "boisson=" + boisson +
+                ", plat=" + plat +
+                ", accompagnement=" + accompagnement +
+                '}';
+    }
 }

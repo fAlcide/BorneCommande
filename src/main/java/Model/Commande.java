@@ -1,5 +1,6 @@
 package Model;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -11,16 +12,13 @@ public class Commande extends Modele{
     private ArrayList<Menu> menus;
     private ArrayList<Produit> produits;
     private LocalDateTime dateCreation;
+    private String etat;
+    private Utilisateur utilisateur;
 
     public Commande() {
-        this.id = genererId();
         this.menus = new ArrayList<>();
         this.produits = new ArrayList<>();
         this.dateCreation = LocalDateTime.now();
-    }
-
-    public int genererId(){
-       return 1;
     }
 
     public void ajouterMenu(Menu menu){
@@ -61,5 +59,43 @@ public class Commande extends Modele{
 
     public void setProduits(ArrayList<Produit> produits) {
         this.produits = produits;
+    }
+
+    public String getEtat() {
+        return etat;
+    }
+
+    public void setEtat(String etat) {
+        this.etat = etat;
+    }
+
+    public Utilisateur getUtilisateur() {
+        return utilisateur;
+    }
+
+    public void setUtilisateur(Utilisateur utilisateur) {
+        this.utilisateur = utilisateur;
+    }
+
+    public void afficherContenance() {
+        System.out.println("\n\nContenance de la commande #" + this.getId() + " passée le " + this.getDateCreation().getDayOfMonth()  + " " + this.getDateCreation().getMonth()  + " " + this.getDateCreation().getYear() + " à " + this.getDateCreation().getHour() + "h" + this.getDateCreation().getMinute());
+        System.out.println("Menus : ");
+
+        int cpt = 0;
+        int cptProduit = 0;
+        for (Menu menu:this.getMenus()
+        ) {
+            cpt = cpt + 1;
+            System.out.println("Menu" + " - " + cpt + ": " + menu.getPlat().getNom() + ", " + menu.getAccompagnement().getNom() + ", " + menu.getBoisson().getNom());
+        }
+
+        System.out.println("");
+        System.out.println("Produits : ");
+
+        for (Produit produit:this.getProduits()
+        ) {
+            cptProduit = cptProduit + 1;
+            System.out.println("Produits" + " - " + cptProduit + ": " + produit.getNom());
+        }
     }
 }
