@@ -254,4 +254,34 @@ public class FileManager implements Serializable{
 
         return commandes;
     }
+
+    //Récupération de la prochaine commandes à préparer
+    public Commande getCommandeToCook(){
+        File folder = new File("Data/Commandes");
+        File[] listOfFiles = folder.listFiles();
+        ArrayList<Commande> commandes = new ArrayList<>();
+
+        for (File file:listOfFiles
+        ) {
+            try{
+                FileInputStream fis = new FileInputStream(file);
+                ObjectInputStream ois = new ObjectInputStream(fis);
+                Commande commande = (Commande) ois.readObject();
+                if(commande.getEtat() == 1){
+                    ois.close();
+                    return commande;
+                }else{
+                    ois.close();
+                    return null;
+                }
+
+            } catch (ClassNotFoundException | FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return null;
+    }
+
 }

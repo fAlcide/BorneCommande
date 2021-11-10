@@ -1,30 +1,34 @@
 import Model.*;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Scanner;
+
+import static java.lang.Thread.sleep;
 
 public class Main {
-    public static void main(String[] args) throws IOException, ParseException, ClassNotFoundException {
+    public static void main(String[] args) throws IOException, ParseException, ClassNotFoundException, InterruptedException {
 
-        Utilisateur alcide = new Utilisateur("alcide", "alcide");
+        Cuisine cuisine1 = new Cuisine("cuisine1");
+        cuisine1.start();
+        /*
+        sleep(1000);
+        Cuisine cuisine2 = new Cuisine("cuisine2");
+        cuisine2.start();
+        sleep(1000);
+        Cuisine cuisine3 = new Cuisine("cuisine3");
+        cuisine3.start();
+
+         */
 
         FileManager fm = new FileManager();
 
         //fm.addUserToFile(alcide);
 
-        Ingredient steak = new IngredientAvecCuisson(1, "Steak", 10, "Grill");
+        Ingredient steak = new IngredientAvecCuisson(1, "Steak", 5, "Grill");
         Ingredient poulet = new IngredientAvecCuisson(2, "Poulet", 8, "Grill");
         Ingredient kebab = new IngredientAvecCuisson(3, "Kebab", 5, "Broche");
-        Ingredient pdt = new IngredientAvecCuisson(4, "Pomme de terres", 5, "Friteuse");
+        Ingredient pdt = new IngredientAvecCuisson(4, "Pomme de terres", 4, "Friteuse");
         Ingredient sauceBurger = new IngredientSansCuisson(5, "Sauce burger");
         Ingredient sauceKebab = new IngredientSansCuisson(6, "Sauce kebab");
         Ingredient pain = new IngredientSansCuisson(7, "Pain");

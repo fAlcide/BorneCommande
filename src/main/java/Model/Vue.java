@@ -274,7 +274,7 @@ public class Vue {
     public void validationCommande() throws IOException, ClassNotFoundException {
         this.commande.setId(fileManager.generationIdCommande());
         this.commande.setUtilisateur(this.user);
-        this.commande.setEtat("En cours de préparation");
+        this.commande.setEtat(1);
         fileManager.addCommandeToFile(this.commande);
         System.out.println("Votre numéro de commande est le " + this.commande.getId());
     }

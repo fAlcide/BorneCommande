@@ -1,10 +1,7 @@
 package Model;
 
-import java.io.IOException;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 
 public class Commande extends Modele{
 
@@ -12,7 +9,7 @@ public class Commande extends Modele{
     private ArrayList<Menu> menus;
     private ArrayList<Produit> produits;
     private LocalDateTime dateCreation;
-    private String etat;
+    private int etat; // 1 : à préparer; 2 : en cours de préparation; 3 : prête
     private Utilisateur utilisateur;
 
     public Commande() {
@@ -61,11 +58,11 @@ public class Commande extends Modele{
         this.produits = produits;
     }
 
-    public String getEtat() {
+    public int getEtat() {
         return etat;
     }
 
-    public void setEtat(String etat) {
+    public void setEtat(int etat) {
         this.etat = etat;
     }
 
