@@ -1,23 +1,8 @@
 package Model;
 
 import java.io.*;
-import java.lang.reflect.Array;
-import java.nio.charset.Charset;
 import java.util.*;
-
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import jdk.jshell.execution.Util;
-
-import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.concurrent.atomic.AtomicReferenceArray;
 
 //En faire un singleton des que possible
 public class FileManager implements Serializable{
