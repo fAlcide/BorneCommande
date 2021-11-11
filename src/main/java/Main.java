@@ -3,18 +3,24 @@ import Model.*;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import static java.lang.Thread.sleep;
+
 public class Main {
-    public static void main(String[] args) throws IOException, ClassNotFoundException {
+    public static void main(String[] args) throws IOException, ClassNotFoundException, InterruptedException {
 
-        // Création des cuisin
-        Cuisine cuisine1 = new Cuisine("cuisine1");
-        Cuisine cuisine2 = new Cuisine("cuisine2");
-        Cuisine cuisine3 = new Cuisine("cuisine3");
+        FenetreCommande fenetre = new FenetreCommande();
 
-        // Start des threads des cuisines
+        // Création des cuisines
+        Cuisine cuisine1 = new Cuisine("cuisine1", fenetre);
+        Cuisine cuisine2 = new Cuisine("cuisine2", fenetre);
+        Cuisine cuisine3 = new Cuisine("cuisine3", fenetre);
+
+        // Start des threads de chaque cuisine
         cuisine1.start();
+        sleep(1000);
         cuisine2.start();
-        cuisine3.start();
+        //sleep(1000);
+        //cuisine3.start();
 
         // Instaciation du fileManager pour la gestion de fichiers
         FileManager fm = new FileManager();
@@ -50,11 +56,11 @@ public class Main {
 
         // Wrap
         ArrayList<Ingredient> wrapListe = new ArrayList<>();
-        burgerListe.add(pain);
-        burgerListe.add(poulet);
-        burgerListe.add(salade);
-        burgerListe.add(tomate);
-        burgerListe.add(oignon);
+        wrapListe.add(pain);
+        wrapListe.add(poulet);
+        wrapListe.add(salade);
+        wrapListe.add(tomate);
+        wrapListe.add(oignon);
 
         // Création des listes d'ingrédients de chaque boisson
         // Coca
@@ -67,11 +73,11 @@ public class Main {
 
         // Eau
         ArrayList<Ingredient> eauListe = new ArrayList<>();
-        iceTeaListe.add(eau);
+        eauListe.add(eau);
 
         // Jus d'orange
         ArrayList<Ingredient> jusListe = new ArrayList<>();
-        iceTeaListe.add(jusOrange);
+        jusListe.add(jusOrange);
 
         // Création des listes d'ingrédients de chaque accompagement
         // Frite
@@ -84,17 +90,17 @@ public class Main {
 
         // Creation des plats
         Plat burger = new Plat(1, "Burger", burgerListe, 6, true, 1);
-        Plat wrap = new Plat(1, "Wrap", wrapListe, 7, false, 1);
+        Plat wrap = new Plat(2, "Wrap", wrapListe, 7, false, 1);
 
         // Création des accompagnements
         Accompagnement frite = new Accompagnement(1, "Frite", friteListe, 3, true, 1);
-        Accompagnement potatoes = new Accompagnement(1, "Potatoes", potatoesListe, 4, true, 1);
+        Accompagnement potatoes = new Accompagnement(2, "Potatoes", potatoesListe, 4, true, 1);
 
         // Création des boissons
         Boisson cocaBoisson = new Boisson(1, "Coca", cocaListe, 1, true, 1);
-        Boisson iceTeaBoisson = new Boisson(1, "Ice Tea", iceTeaListe, 1, true, 1);
-        Boisson eauBoisson = new Boisson(1, "Eau", eauListe, 1, true, 1);
-        Boisson jusBoisson = new Boisson(1, "Jus d'orange", jusListe, 1, true, 1);
+        Boisson iceTeaBoisson = new Boisson(2, "Ice Tea", iceTeaListe, 1, true, 1);
+        Boisson eauBoisson = new Boisson(3, "Eau", eauListe, 1, true, 1);
+        Boisson jusBoisson = new Boisson(4, "Jus d'orange", jusListe, 1, true, 1);
 
         // Ajout dans les fichiers
         // ----------------------------------------------------------------------- //
@@ -108,7 +114,7 @@ public class Main {
 
         for (Boisson boisson: listeBoissonsAjout
         ) {
-            fm.addBoissonInFile(boisson);
+            fm.ajouterBoisson(boisson);
         }
 
         // Ajout des plats dans les fichiers
@@ -124,6 +130,7 @@ public class Main {
         // Ajout des accompagnements dans les fichiers
         ArrayList<Accompagnement> listeAccompagnementsAjout = new ArrayList<>();
         listeAccompagnementsAjout.add(frite);
+        listeAccompagnementsAjout.add(potatoes);
 
         for (Accompagnement accompagnement: listeAccompagnementsAjout
              ) {

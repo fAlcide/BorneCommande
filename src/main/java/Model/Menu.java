@@ -47,6 +47,10 @@ public class Menu extends Modele{
         this.accompagnement = accompagnement;
     }
 
+    public double getPrix(){
+        return (boisson.getPrix() + plat.getPrix() + accompagnement.getPrix()) * 0.75;
+    }
+
     @Override
     public String toString() {
         return "Menu{" +

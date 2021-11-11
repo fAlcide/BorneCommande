@@ -23,7 +23,7 @@ import java.util.concurrent.atomic.AtomicReferenceArray;
 public class FileManager implements Serializable{
 
     // ---------- BOISSONS -------------
-    public void addBoissonInFile(Boisson boisson) throws IOException, ClassNotFoundException {
+    public void ajouterBoisson(Boisson boisson) throws IOException, ClassNotFoundException {
 
         //Write Student array to file.
         FileOutputStream fos = new FileOutputStream("Data/Boissons/" + boisson.getNom() + ".ser");
@@ -291,8 +291,6 @@ public class FileManager implements Serializable{
 
         System.out.println("Nombre de commande en attente de prise en charge : " + cpt);
     }
-
-
 
     // Récupération de la prochaine commandes à préparer
     public Commande getCommandeToCook(){

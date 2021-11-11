@@ -10,4 +10,21 @@ public class Plat extends Produit{
         super(id, nom, ingredients, prix, dispoHorsMenu);
         this.nbPersonne = nbPersonne;
     }
+
+    public double getPrixMenu(){
+        return this.getPrix() + 1.50;
+    }
+
+    public String getIngredientToString(){
+        String ingredients = "(";
+        for (Ingredient ingredient: this.getIngredients()
+             ) {
+            ingredients = ingredients + ingredient.getNom() + ",";
+        }
+
+        ingredients = ingredients.substring(0, ingredients.length() - 1);
+        ingredients = ingredients + ")";
+
+        return ingredients;
+    }
 }

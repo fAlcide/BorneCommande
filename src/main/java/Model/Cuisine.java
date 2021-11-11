@@ -1,7 +1,6 @@
 package Model;
 
 import javax.swing.*;
-import java.io.File;
 import java.io.IOException;
 
 public class Cuisine extends Thread{
@@ -9,13 +8,14 @@ public class Cuisine extends Thread{
     private String nom;
     private Commande commande;
     private FileManager fileManager = new FileManager();
-    private JFrame frame = new JFrame();
+    private FenetreCommande fenetre;
 
     public Cuisine(){
     }
 
-    public Cuisine(String nom){
+    public Cuisine(String nom, FenetreCommande fenetreCommande){
         this.nom = nom;
+        this.fenetre = fenetreCommande;
     }
 
     public String getNom() {
@@ -84,30 +84,28 @@ public class Cuisine extends Thread{
                         }
                     }
                 }
-                System.out.println("\n" +
-                        "------------------------------------\n" +
-                        "Commande " + this.getCommande().getId() + " en cours de préparation. Temps d'attente estimé : " + tempsPreparation + " secondes\n" +
-                        "------------------------------------\n"
+                fenetre.ajouterLabel("\n" +
+                        "\n" +
+                        "Commande n• " + this.getCommande().getId() + " en cours de préparation. Temps d'attente estimé : " + tempsPreparation + " secondes\n" +
+                        "\n"
                 );
-
-
 
                 try {
                     for (int i = 0; i < 2; i ++){
                         sleep(tempsPreparation / 2 * 1000);
                         if(i == 0) {
-                            System.out.println("\n" +
-                                    "------------------------------------\n" +
-                                    "Commande n• " + this.commande.getId() + " à moitié terminée \n" +
-                                    "------------------------------------\n"
+                            fenetre.ajouterLabel("\n" +
+                                    "\n" +
+                                    "Commande n• " + this.commande.getId() + " prête à 50%. Temps restant : "+ tempsPreparation/2 + "s \n" +
+                                    "\n"
                             );
                         }else{
 
-                            JOptionPane.showMessageDialog(frame,"Commande prête");
-                            System.out.println("\n" +
-                                    "------------------------------------\n" +
-                                    "Commande n• " + this.commande.getId() + " prête \n" +
-                                    "------------------------------------\n"
+                            //JOptionPane.showMessageDialog(frame,"Commande prête");
+                            fenetre.ajouterLabel("\n" +
+                                    "\n" +
+                                    "Commande n• " + this.commande.getId() + " prête !\n" +
+                                    "\n"
                                     );
                         }
                     }

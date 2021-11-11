@@ -66,6 +66,21 @@ public class Commande extends Modele{
         this.etat = etat;
     }
 
+    public double getPrixCommande(){
+        double prix = 0;
+        for (Menu menu: this.getMenus()
+             ) {
+            prix = prix + menu.getPlat().getPrixMenu();
+        }
+
+        for (Produit produit:produits
+             ) {
+            prix = prix + produit.getPrix();
+        }
+
+        return prix;
+    }
+
     public Utilisateur getUtilisateur() {
         return utilisateur;
     }
