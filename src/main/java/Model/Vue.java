@@ -277,6 +277,7 @@ public class Vue {
         this.commande.setEtat(1);
         fileManager.addCommandeToFile(this.commande);
         System.out.println("Votre numéro de commande est le " + this.commande.getId());
+        this.commande = null;
     }
 
     public void annulerCommande() throws IOException, ClassNotFoundException {

@@ -1,6 +1,7 @@
 package Model;
 
 import java.io.*;
+import java.lang.reflect.Array;
 import java.nio.charset.Charset;
 import java.util.*;
 
@@ -220,12 +221,19 @@ public class FileManager implements Serializable{
     public int generationIdCommande() throws IOException, ClassNotFoundException {
         File folder = new File("Data/Commandes");
         File[] listOfFiles = folder.listFiles();
+        ArrayList<Integer> nomCommandes = new ArrayList<>();
 
         if(listOfFiles.length > 0){
-            String id = listOfFiles[listOfFiles.length - 1].getName();
-            id = id.replace(".ser", "");
-            int idFinal = Integer.parseInt(id);
-            return idFinal + 1;
+
+            for (File file:listOfFiles
+                 ) {
+                nomCommandes.add(Integer.parseInt(file.getName().replace(".ser", "")));
+            }
+
+            // Tri du nom des fichiers
+            Collections.sort(nomCommandes);
+
+            return nomCommandes.get(nomCommandes.size() - 1) + 1;
         }else{
             return 1;
         }
@@ -255,12 +263,11 @@ public class FileManager implements Serializable{
         return commandes;
     }
 
-    //Récupération de la prochaine commandes à préparer
-    public Commande getCommandeToCook(){
+    // Nombre de commande en attente de préparation
+    public void nombreCommandeAPreparer(){
         File folder = new File("Data/Commandes");
         File[] listOfFiles = folder.listFiles();
-        ArrayList<Commande> commandes = new ArrayList<>();
-
+        int cpt = 0;
         for (File file:listOfFiles
         ) {
             try{
@@ -268,11 +275,39 @@ public class FileManager implements Serializable{
                 ObjectInputStream ois = new ObjectInputStream(fis);
                 Commande commande = (Commande) ois.readObject();
                 if(commande.getEtat() == 1){
-                    ois.close();
-                    return commande;
+                    if(commande.getEtat() == 1) {
+                        cpt++;
+                    }
                 }else{
                     ois.close();
-                    return null;
+                }
+                ois.close();
+            } catch (ClassNotFoundException | FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        System.out.println("Nombre de commande en attente de prise en charge : " + cpt);
+    }
+
+
+
+    // Récupération de la prochaine commandes à préparer
+    public Commande getCommandeToCook(){
+        //nombreCommandeAPreparer();
+        File folder = new File("Data/Commandes");
+        File[] listOfFiles = folder.listFiles();
+        ArrayList<Commande> commandes = new ArrayList<>();
+        for (File file:listOfFiles
+        ) {
+            try{
+                FileInputStream fis = new FileInputStream(file);
+                ObjectInputStream ois = new ObjectInputStream(fis);
+                Commande commande = (Commande) ois.readObject();
+                if(commande.getEtat() == 1){
+                    return commande;
                 }
 
             } catch (ClassNotFoundException | FileNotFoundException e) {

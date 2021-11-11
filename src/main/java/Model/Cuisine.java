@@ -1,12 +1,15 @@
 package Model;
 
+import javax.swing.*;
 import java.io.File;
+import java.io.IOException;
 
 public class Cuisine extends Thread{
 
     private String nom;
     private Commande commande;
     private FileManager fileManager = new FileManager();
+    private JFrame frame = new JFrame();
 
     public Cuisine(){
     }
@@ -40,6 +43,14 @@ public class Cuisine extends Thread{
             }
             this.setCommande(fileManager.getCommandeToCook());
             if(commande != null) {
+                this.commande.setEtat(2);
+                try {
+                    fileManager.addCommandeToFile(this.commande);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (ClassNotFoundException e) {
+                    e.printStackTrace();
+                }
                 int tempsPreparation = 0;
 
                 //Récupération dse temps de cuisson des menus
@@ -79,17 +90,42 @@ public class Cuisine extends Thread{
                         "------------------------------------\n"
                 );
 
-                /*
+
 
                 try {
-                    sleep(tempsPreparation * 1000);
+                    for (int i = 0; i < 2; i ++){
+                        sleep(tempsPreparation / 2 * 1000);
+                        if(i == 0) {
+                            System.out.println("\n" +
+                                    "------------------------------------\n" +
+                                    "Commande n• " + this.commande.getId() + " à moitié terminée \n" +
+                                    "------------------------------------\n"
+                            );
+                        }else{
+
+                            JOptionPane.showMessageDialog(frame,"Commande prête");
+                            System.out.println("\n" +
+                                    "------------------------------------\n" +
+                                    "Commande n• " + this.commande.getId() + " prête \n" +
+                                    "------------------------------------\n"
+                                    );
+                        }
+                    }
+
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
 
-                 */
+                this.commande.setEtat(3);
 
-
+                try {
+                    fileManager.addCommandeToFile(this.commande);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (ClassNotFoundException e) {
+                    e.printStackTrace();
+                }
+            }else{
             }
         }
     }
