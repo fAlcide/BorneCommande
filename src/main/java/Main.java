@@ -27,6 +27,10 @@ public class Main {
         //sleep(1000);
         //cuisine3.start();
 
+        // <*><*><*><*><*><*><*><*><*><*> Création du jeu de données <*><*><*><*><*><*><*><*><*><*><*><*><*><*><*><*><*
+        // Ce jeu permet de stocker les données dans des fichiers
+        // Les méthodes d'ajout dans les fichiers sont commentées pour garder la persistence
+
         // Ingrédients pour les plats
         Ingredient steak = new IngredientAvecCuisson(1, "Steak", 5, "Grill");
         Ingredient poulet = new IngredientAvecCuisson(2, "Poulet", 8, "Grill");
@@ -116,7 +120,7 @@ public class Main {
 
         for (Boisson boisson: listeBoissonsAjout
         ) {
-            fm.ajouterBoisson(boisson);
+            //fm.ajouterBoisson(boisson);
         }
 
         // Ajout des plats dans les fichiers
@@ -126,7 +130,7 @@ public class Main {
 
         for (Plat plat: listePlatsAjout
              ) {
-            fm.addPlatInFile(plat);
+            //fm.addPlatInFile(plat);
         }
 
         // Ajout des accompagnements dans les fichiers
@@ -136,7 +140,7 @@ public class Main {
 
         for (Accompagnement accompagnement: listeAccompagnementsAjout
              ) {
-            fm.addAccompagnementInFile(accompagnement);
+            //fm.addAccompagnementInFile(accompagnement);
         }
 
         // ----------------------------------------------------------------------- //
