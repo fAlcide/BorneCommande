@@ -3,7 +3,7 @@ package Model;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
-public class Commande extends Modele{
+public class Commande implements java.io.Serializable {
 
     private int id;
     private ArrayList<Menu> menus;

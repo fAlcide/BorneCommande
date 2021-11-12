@@ -1,8 +1,6 @@
 package Model;
 
-import java.util.ArrayList;
-
-public class Menu extends Modele{
+public class Menu implements java.io.Serializable {
 
     private int id;
     private Boisson boisson;

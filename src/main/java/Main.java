@@ -8,6 +8,7 @@ import static java.lang.Thread.sleep;
 public class Main {
     public static void main(String[] args) throws IOException, ClassNotFoundException, InterruptedException {
 
+        // Fenetre permettant d'afficher l'état des commandes
         FenetreCommande fenetre = new FenetreCommande();
 
         // Création des cuisines

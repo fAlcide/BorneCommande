@@ -1,10 +1,8 @@
 package Model;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.util.ArrayList;
 
-public abstract class Produit extends Modele{
+public abstract class Produit implements java.io.Serializable {
 
     private int id;
     private String nom;
