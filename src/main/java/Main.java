@@ -1,5 +1,6 @@
 import Model.*;
 
+import javax.swing.*;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -11,10 +12,13 @@ public class Main {
         // Fenetre permettant d'afficher l'état des commandes
         FenetreCommande fenetre = new FenetreCommande();
 
+        // Instaciation du fileManager pour la gestion de fichiers
+        FileManager fm = FileManager.getInstance();
+
         // Création des cuisines
-        Cuisine cuisine1 = new Cuisine("cuisine1", fenetre);
-        Cuisine cuisine2 = new Cuisine("cuisine2", fenetre);
-        Cuisine cuisine3 = new Cuisine("cuisine3", fenetre);
+        Cuisine cuisine1 = new Cuisine("cuisine1", fenetre, fm);
+        Cuisine cuisine2 = new Cuisine("cuisine2", fenetre, fm);
+        Cuisine cuisine3 = new Cuisine("cuisine3", fenetre, fm);
 
         // Start des threads de chaque cuisine
         cuisine1.start();
@@ -22,9 +26,6 @@ public class Main {
         cuisine2.start();
         //sleep(1000);
         //cuisine3.start();
-
-        // Instaciation du fileManager pour la gestion de fichiers
-        FileManager fm = new FileManager();
 
         // Ingrédients pour les plats
         Ingredient steak = new IngredientAvecCuisson(1, "Steak", 5, "Grill");
@@ -150,7 +151,7 @@ public class Main {
         ArrayList<Accompagnement> listeAccompagnements = fm.getAccompagnementsFromFile();
 
         // Instantiation de la vue
-        Vue vue = new Vue(listeBoissons, listePlats, listeAccompagnements, fm);
+        Vue vue =  Vue.getInstance(listeBoissons, listePlats, listeAccompagnements, fm);
 
         // Démarrage de la borne
         while(true){

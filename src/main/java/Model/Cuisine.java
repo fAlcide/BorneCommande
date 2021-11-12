@@ -1,21 +1,23 @@
 package Model;
 
 import javax.swing.*;
+import java.io.File;
 import java.io.IOException;
 
 public class Cuisine extends Thread{
 
     private String nom;
     private Commande commande;
-    private FileManager fileManager = new FileManager();
+    private FileManager fileManager;
     private FenetreCommande fenetre;
 
     public Cuisine(){
     }
 
-    public Cuisine(String nom, FenetreCommande fenetreCommande){
+    public Cuisine(String nom, FenetreCommande fenetreCommande, FileManager fileManager){
         this.nom = nom;
         this.fenetre = fenetreCommande;
+        this.fileManager = fileManager;
     }
 
     public String getNom() {

@@ -7,6 +7,20 @@ import java.util.ArrayList;
 //En faire un singleton des que possible
 public class FileManager implements Serializable{
 
+    private static FileManager instanceOf = null;
+
+    private FileManager(){
+
+    }
+
+    public static FileManager getInstance() {
+        if(instanceOf == null){
+            return new FileManager();
+        }else {
+            return instanceOf;
+        }
+    }
+
     // ---------- BOISSONS -------------
     public void ajouterBoisson(Boisson boisson) throws IOException, ClassNotFoundException {
 

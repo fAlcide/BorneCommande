@@ -6,6 +6,7 @@ import java.util.Scanner;
 
 public class Vue {
 
+    private static Vue instance;
     private Scanner sc = new Scanner(System.in);
     private ArrayList<Boisson> listeBoissons;
     private ArrayList<Plat> listePlats;
@@ -16,7 +17,7 @@ public class Vue {
     private Utilisateur user;
 
 
-    public Vue(ArrayList<Boisson> listeBoissons, ArrayList<Plat> listePlats, ArrayList<Accompagnement> listeAccompagnements, FileManager fileManager) {
+    private Vue(ArrayList<Boisson> listeBoissons, ArrayList<Plat> listePlats, ArrayList<Accompagnement> listeAccompagnements, FileManager fileManager) {
         this.listeBoissons = listeBoissons;
         this.listePlats = listePlats;
         this.listeAccompagnements = listeAccompagnements;
@@ -24,6 +25,14 @@ public class Vue {
         this.listeProduits.addAll(this.listeAccompagnements);
         this.listeProduits.addAll(this.listeBoissons);
         this.fileManager = fileManager;
+    }
+
+    public static Vue getInstance(ArrayList<Boisson> listeBoissons, ArrayList<Plat> listePlats, ArrayList<Accompagnement> listeAccompagnements, FileManager fileManager){
+        if(instance == null){
+            return new Vue(listeBoissons, listePlats, listeAccompagnements, fileManager);
+        }else{
+            return instance;
+        }
     }
 
     // Indentification du client
@@ -86,8 +95,8 @@ public class Vue {
 
     // Menu acceuil
     public int choixAccueil() throws IOException, ClassNotFoundException, InterruptedException {
-        while (!identification()){
-            identification();
+        if(!identification()){
+            return 0;
         }
         System.out.println("<<>><<>><<>><<>><<>><<>><<>><< BIENVENUE " + this.user.getNom() + " >><<>><<>><<>><<>><<>><<>><<>>\n");
         System.out.println("1 - Passer une commande");
